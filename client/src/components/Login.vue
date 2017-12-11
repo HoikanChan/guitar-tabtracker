@@ -4,7 +4,7 @@
       <div class="white elevation-2">
         <v-toolbar flat dense dark class="cyan">
           <v-toolbar-title class="white--text">
-            Register
+            Login
           </v-toolbar-title>
         </v-toolbar>
       <div class="pl-4 pr-4 pt-2 pb-2">
@@ -21,7 +21,7 @@
           color="primary"
           class="cyan"
           @click="register">
-          Register
+          LOGIN 
         </v-btn>
       </div>     
     </div>
