@@ -33,6 +33,7 @@ selenium-debug.log
 # Editor directories and files
 .idea
 .vscode
+*.sqlite
 *.suo
 *.ntvs*
 *.njsproj

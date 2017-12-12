@@ -16,7 +16,11 @@ module.exports = {
         try {
             User.create(req.body).then(user => {
                 console.log(user)
-                res.send(user.toJSON())
+                const userJson = user.toJSON()
+                res.send({
+                    user:userJson,
+                    token:jwtSignUser(userJson)
+                })
             });
         } catch (error) {
             res.status(400).send({
@@ -41,7 +45,6 @@ module.exports = {
                         error: 'The login infomation was incorrect '
                     })
                 }
-                console.log("user", user);
                 console.log("password", password);
                 user.comparePassword(password).then(isPasswordValid => {
                     console.log("password check", isPasswordValid);
