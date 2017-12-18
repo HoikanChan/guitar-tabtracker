@@ -11,7 +11,7 @@ app.use(morgan('combine'));
 app.use(bodyParser.json());
 app.use(cors());
 require("./routes")(app)
-sequelize.sync({force:true})
+sequelize.sync({force:false})
     .then(() => {
 
         app.listen(process.env.PORT || 8081)
