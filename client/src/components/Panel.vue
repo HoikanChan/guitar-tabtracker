@@ -6,9 +6,8 @@
             <v-toolbar-title class="white--text">
     
                 {{title}}
-    
             </v-toolbar-title>
-    
+            <slot name='actions'/>
         </v-toolbar>
         <slot>
             Not Defined
@@ -17,11 +16,11 @@
 </template>
 <script>
 export default {
-    props:{
-        title:{
-            type:String,
-            required:true
-        }
+  props: {
+    title: {
+      type: String,
+      required: true
     }
-}
+  }
+};
 </script>

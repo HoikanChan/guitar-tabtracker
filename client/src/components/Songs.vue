@@ -2,6 +2,12 @@
    <v-layout column>
     <v-flex xs6 offset-xs3>
       <panel title="Songs">
+            <v-btn 
+              slot='actions' 
+              to='songs/create'
+              absolute right light fab medium class='cyan accent-2'>
+              <v-icon>add</v-icon>
+            </v-btn>
           <v-layout v-for='song in songs' :key='song.id'class='pa-3'>
             <v-flex xs6>
               <div class='song-title' label='title'>
@@ -34,8 +40,8 @@
   </v-layout>
 </template>
 <script>
-import Panel from "@/components/Panel";
-import SongsService from "@/services/SongsService";
+import Panel from '@/components/Panel'
+import SongsService from '@/services/SongsService'
 export default {
   components: {
     Panel
@@ -43,13 +49,12 @@ export default {
   data() {
     return {
       songs: null
-    };
+    }
   },
   async mounted() {
-    this.songs = (await SongsService.index()).data;
-    console.log("*****************", this.songs);
+    this.songs = (await SongsService.index()).data
   }
-};
+}
 </script>
 <style scoped>
 .song-title {

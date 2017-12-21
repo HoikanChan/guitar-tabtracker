@@ -2,42 +2,30 @@
   <div class="hello">
     <v-layout>
       <v-flex xs6 class="mx-3" >
-        <panel title="Create Song" >
+        <panel title="Edit Song" >
           <div class='px-4 py-2'>
             <v-text-field
               label='Title'
-              :rules='[required]'
-              required
               v-model="song.title"
             />
             <v-text-field
               label='Artist'
-              :rules='[required]'
-              required
               v-model="song.artist"
             />
             <v-text-field
               label='Genre'
-              :rules='[required]'
-              required
               v-model="song.genre"
             />
             <v-text-field
               label='Album'
-              :rules='[required]'
-              required
               v-model="song.album"
             />
             <v-text-field
               label='Youtube  Id'
-              :rules='[required]'
-              required
               v-model="song.youtubeId"
             />
             <v-text-field
               label='Album Image Url'
-              :rules='[required]'
-              required
               v-model="song.albumImageUrl"
             />
           </div>
@@ -48,22 +36,17 @@
           <div class='px-4 py-2'>
              <v-text-field
               label='lyrics'
-              :rules='[required]'
               multi-line
-              required
               v-model="song.lyrics"
             />
             <v-text-field
               label='tab'
-              :rules='[required]'
               multi-line
-              required
               v-model="song.tab"
             />
           </div>
-          <div v-if='error' class='danger-alert'>{{error}}</div>
-          <v-btn class="cyan" dark @click="submitSong">
-            Submit
+          <v-btn class="cyan" dark @click="editSong">
+            Edit
           </v-btn>
         </panel>
       </v-flex>
@@ -72,45 +55,41 @@
 </template>
 
 <script>
+import Panel from '@/components/Panel.vue'
+import SongsService from '@/services/SongsService.js'
+import {mapState} from 'vuex';
 
-import Panel from "@/components/Panel.vue";
-import SongService from "@/services/SongsService.js";
 export default {
   components: {
     Panel
   },
   data() {
     return {
-      song: {
-        title: null,
-        artist: null,
-        genre: null,
-        album: null,
-        albumImageUrl: null,
-        youtubeId: null,
-        lyrics: null,
-        tab: null
-      },
-      error: null,
-      required: value => !!value || "Required"
-    };
+       song: {},
+       songId:null
+    }
   },
   methods: {
-    async submitSong() {
-      console.log(this.song.title)
-      const isAllFilled = Object.keys(this.song).every(key => !!this.song[key])
-      if (!isAllFilled) {
-        this.error = "Please fill in all the text fields"
-        return
-      }
+    async editSong() {
       try {
-        await SongService.post(this.song)
-        this.$route.push({ name: "song" })
+        await SongsService.put(this.songId, this.song)
+        this.$router.push({
+          name: 'song',
+          params:{
+            songId:this.songId
+          } })
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }
   },
+   computed:{
+    ...mapState(['route'])
+  },
+   async mounted(){
+    this.songId = this.route.params.songId
+    this.song = (await SongsService.show(this.songId)).data[0]
+  }
 };
 </script>
 
