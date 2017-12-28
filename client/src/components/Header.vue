@@ -1,15 +1,15 @@
 <template>
     <v-toolbar fixed class="cyan" dark>
     
-        <v-toolbar-title class="mr-4" @click="navigateTo({name:'Root'})">
+        <router-link class="mr-4" :to="{name:'songs'}" tag="v-toolbar-title">
     
             TabTraker
     
-        </v-toolbar-title>
+        </router-link>
     
         <v-toolbar-items>
     
-            <v-btn flat dark>
+            <v-btn flat dark :to="{name:'songs'}">
     
                 Broswer
     
@@ -21,13 +21,13 @@
     
         <v-toolbar-items v-if='!$store.state.isUserLoggedIn'>
     
-            <v-btn flat dark @click="navigateTo({name:'login'})">
+            <v-btn flat dark :to="{name:'login'}">
     
                 LOGIN
     
             </v-btn>
     
-            <v-btn flat dark @click="navigateTo({name:'register'})">
+            <v-btn flat dark :to="{name:'register'}">
     
                 SIGN-UP
     
@@ -49,17 +49,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'HelloWorld',
-
-  data() {
+  data () {
     return {
       msg: 'Welcome to Your Vue.js App'
-    };
+    }
   },
 
   methods: {
@@ -69,7 +65,7 @@ export default {
       this.$router.push(route)
     },
 
-    logout (){
+    logout () {
       this.navigateTo({
         name: 'root'
       })
@@ -83,7 +79,7 @@ export default {
   computed: {
     ...mapState(['isUserLoggedIn'])
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

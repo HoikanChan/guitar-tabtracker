@@ -3,11 +3,31 @@ const {
 } = require('../models')
 
 module.exports = {
-  async index(req, res) {
+  async index (req, res) {
     try {
-      const song = await Song.findAll({
-        limit: 10
-      })
+      console.log(req.query)
+      const search = req.query.search
+      let song = null
+      if (search) {
+        song = await Song.findAll({
+          where: {
+            $or: [
+              'title',
+              'album',
+              'artist',
+              'genre'
+            ].map(key => ({
+              [key]: {
+                $like: `%${search}%`
+              }
+            }))
+          }
+        })
+      } else {
+        song = await Song.findAll({
+          limit: 10
+        })
+      }
       res.send(song)
     } catch (err) {
       res.status(500).send({
@@ -15,7 +35,7 @@ module.exports = {
       })
     }
   },
-  async show(req, res) {
+  async show (req, res) {
     try {
       const song = await Song.findAll({
         where: {
@@ -29,9 +49,9 @@ module.exports = {
       })
     }
   },
-  async put(req, res) {
+  async put (req, res) {
     try {
-      await Song.update(req.body,{
+      await Song.update(req.body, {
         where: {
           id: req.params.songId
         }
@@ -43,7 +63,7 @@ module.exports = {
       })
     }
   },
-  async post(req, res) {
+  async post (req, res) {
     try {
       const song = await Song.create(req.body)
       res.send(song)

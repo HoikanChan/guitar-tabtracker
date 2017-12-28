@@ -18,12 +18,8 @@
 
 <script>
   import AuthenticationService from '@/services/AuthenticationService.js'
-  import Panel from '@/components/Panel.vue'
   export default {
-    components: {
-      Panel
-    },
-    data() {
+    data () {
       return {
         email: '',
         password: '',
@@ -31,7 +27,7 @@
       }
     },
     methods: {
-      async login() {
+      async login () {
         try {
           const res = await AuthenticationService.login({
             email: this.email,
@@ -39,8 +35,9 @@
           })
           this.$store.dispatch('setToken', res.data.token)
           this.$store.dispatch('setUser', res.data.user)
-  
-        } catch (error) {
+          this.$router.push({name: 'songs'})
+        } 
+        catch (error) {
           this.error = error.response.data.error
         }
       }

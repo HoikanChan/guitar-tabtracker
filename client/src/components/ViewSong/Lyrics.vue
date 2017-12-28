@@ -11,18 +11,9 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
 
 export default {
-    props:['lyrics'],
-    components:{
-        Panel
-    },
-  data () {
-    return {
-        
-    }
-  }
+  props: ['lyrics'],
 }
 </script>
 
