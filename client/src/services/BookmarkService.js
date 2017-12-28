@@ -9,13 +9,10 @@ export default {
       }
     })
   },
-//   post (song) {
-//     return Api().post('songs', song)
-//   },
-//   show (songId) {
-//     return Api().get(`songs/${songId}`)
-//   },
-//   put (songId, song) {
-//     return Api().put(`songs/${songId}`, song)
-//   }
+  post (bookmark) {
+    return Api().post('bookmarks', bookmark)
+  },
+  delete (bookmarkId) {
+    return Api().delete(`bookmarks/${bookmarkId}`)
+  }
 }

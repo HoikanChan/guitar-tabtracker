@@ -23,12 +23,14 @@
         <v-btn 
           class='cyan' dark 
           v-if="isUserLoggedIn && !bookmark"
+          @click="setBookmark"
         >
           Bookmark
         </v-btn>
         <v-btn 
           class='cyan' dark 
           v-if="isUserLoggedIn && bookmark"
+          @click="unSetBookmark"
         >
           Unbookmark
         </v-btn>
@@ -60,11 +62,34 @@ export default {
         const bookmark = (await BookmarkService.index({
           userId: this.user.id,
           songId: this.song.id
-        })).data;
+        })).data
         if (!!bookmark) {
-          this.bookmark = bookmark;
+          this.bookmark = bookmark
         }
       } catch (err) {
+        console.log(err);
+      }
+    }
+  },
+  methods: {
+    async setBookmark () {
+      try {
+        this.bookmark = (await BookmarkService.post({
+          userId: this.user.id,
+          songId: this.song.id
+        })).data
+      } catch (error) {
+        console.log(err);
+      }
+    },
+    async unSetBookmark () {
+      console.log("id",this.bookmark.id);
+       try {
+        if(!!this.bookmark.id){
+          (await BookmarkService.delete(this.bookmark.id)).data
+          this.bookmark = null
+        }
+      } catch (error) {
         console.log(err);
       }
     }
