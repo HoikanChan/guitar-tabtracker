@@ -5,7 +5,6 @@ const {
 module.exports = {
   async index (req, res) {
     try {
-      console.log('search', req.query)
       const search = req.query.search
       let song = null
       if (search) {

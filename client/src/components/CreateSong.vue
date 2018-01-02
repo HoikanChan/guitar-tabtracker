@@ -50,7 +50,6 @@
     },
     methods: {
       async submitSong () {
-        console.log(this.song.title)
         const isAllFilled = Object.keys(this.song).every(key => !!this.song[key])
         if (!isAllFilled) {
           this.error = 'Please fill in all the text fields'

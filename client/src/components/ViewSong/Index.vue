@@ -21,6 +21,7 @@
 
 <script>
   import SongsService from '@/services/SongsService'
+  import HistoryService from '@/services/HistoryService'
   import SongMetadata from './SongMetadata'
   import Youtube from './Youtube'
   import Lyrics from './Lyrics'
@@ -42,11 +43,15 @@
       Tabs
     },
     computed: {
-      ...mapState(['route'])
+      ...mapState(['route', 'user'])
     },
     async mounted () {
       this.songId = this.route.params.songId
       this.song = (await SongsService.show(this.songId)).data[0]
+      HistoryService.post({
+        UserId: this.user.id,
+        SongId: this.songId
+      })
     }
   }
 </script>

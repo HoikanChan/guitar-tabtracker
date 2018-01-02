@@ -7,7 +7,7 @@ export default {
         search: search
       }
     })
-  },
+  },  
   post (song) {
     return Api().post('songs', song)
   },

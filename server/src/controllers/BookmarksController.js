@@ -1,19 +1,27 @@
 const {
-    Bookmark
-  } = require('../models')
+  Bookmark,
+  Song
+} = require('../models')
 
 module.exports = {
   async index (req, res) {
     try {
-      const songId = req.query.songId
-      const userId = req.query.userId
-      let bookmark = null
-      bookmark = await Bookmark.findOne({
-        where: {
-          songId: songId,
-          userId: userId
-        }
-      })
+      const {userId, songId} = req.query
+      let where = {
+        UserId: userId
+      }
+      if (songId) {
+        where.SongId = songId
+      }
+      const bookmark = await Bookmark.findAll({
+        where: where,
+        include: [
+          {
+            model: Song
+          }
+        ]
+      }).map(bookmark => bookmark.toJSON())
+        .map(bookmark => bookmark.Song)
       res.send(bookmark)
     } catch (err) {
       res.status(500).send({
@@ -24,7 +32,7 @@ module.exports = {
   async post (req, res) {
     try {
       const bookmark = req.body
-      if (!!bookmark.userId && !!bookmark.songId) {
+      if (!!bookmark.UserId && !!bookmark.SongId) {
         const sameExistBookmark = await Bookmark.findOne({
           where: req.body
         })

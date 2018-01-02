@@ -15,7 +15,7 @@
         <v-btn class='cyan' dark :to="{
           name:'song-edit',
           params:{
-          songId:song.id
+            songId:song.id
           }
         }">
           Edit
@@ -43,31 +43,31 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import BookmarkService from "@/services/BookmarkService";
+import { mapState } from 'vuex'
+import BookmarkService from '@/services/BookmarkService'
 export default {
-  props: ["song"],
-  computed: mapState(["isUserLoggedIn", "user"]),
-  data() {
+  props: ['song'],
+  computed: mapState(['isUserLoggedIn', 'user']),
+  data () {
     return {
       bookmark: null
-    };
+    }
   },
   watch: {
-    async song() {
+    async song () {
       if (!this.isUserLoggedIn) {
-        return;
+        return
       }
       try {
         const bookmark = (await BookmarkService.index({
           userId: this.user.id,
           songId: this.song.id
         })).data
-        if (!!bookmark) {
-          this.bookmark = bookmark
+        if (bookmark.length > 0) {
+          this.bookmark = bookmark[0]
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
   },
@@ -75,26 +75,25 @@ export default {
     async setBookmark () {
       try {
         this.bookmark = (await BookmarkService.post({
-          userId: this.user.id,
-          songId: this.song.id
+          UserId: this.user.id,
+          SongId: this.song.id
         })).data
       } catch (error) {
-        console.log(err);
+        console.log(err)
       }
     },
     async unSetBookmark () {
-      console.log("id",this.bookmark.id);
        try {
-        if(!!this.bookmark.id){
+        if(!!this.bookmark.id) {
           (await BookmarkService.delete(this.bookmark.id)).data
           this.bookmark = null
         }
       } catch (error) {
-        console.log(err);
+        console.log(error)
       }
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

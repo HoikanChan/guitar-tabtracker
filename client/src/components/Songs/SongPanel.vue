@@ -3,10 +3,16 @@
     <v-btn 
       slot='actions' 
       to='songs/create'
-      absolute right light fab medium class='cyan accent-2'>
+      absolute right light fab medium 
+      class='cyan accent-2'
+    >
       <v-icon>add</v-icon>
     </v-btn>
-    <v-layout v-for='song in songs' :key='song.id'class='pa-3'>
+    <v-layout 
+      v-for='song in songs' 
+      :key='song.id'
+      class='pa-3'
+    >
       <v-flex xs6>
         <div class='song-title' label='title'>
         {{song.title}}
