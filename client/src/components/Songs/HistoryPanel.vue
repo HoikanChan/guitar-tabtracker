@@ -45,7 +45,7 @@
     },
     computed: mapState(['user']),
     mounted: async function () {
-      this.items = (await HistoryService.index(this.user.id)).data
+      this.items = (await HistoryService.index()).data
     }
   }
 </script>

@@ -6,9 +6,9 @@ const {
 module.exports = {
   async index (req, res) {
     try {
-      const {userId, songId} = req.query
+      const {songId} = req.query
       let where = {
-        UserId: userId
+        UserId: req.user.id
       }
       if (songId) {
         where.SongId = songId
@@ -31,14 +31,21 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const bookmark = req.body
-      if (!!bookmark.UserId && !!bookmark.SongId) {
+      const {SongId} = req.body
+      const UserId = req.user.id
+      if (UserId && SongId) {
         const sameExistBookmark = await Bookmark.findOne({
-          where: req.body
+          where: {
+            UserId: UserId,
+            SongId: SongId
+          }
         })
         let newBookmark = null
         if (!sameExistBookmark) {
-          newBookmark = await Bookmark.create(bookmark)
+          newBookmark = await Bookmark.create({
+            UserId: UserId,
+            SongId: SongId
+          })
         }
         res.send(newBookmark)
       } else {
@@ -59,7 +66,7 @@ module.exports = {
             id: bookmarkId
           }
         })
-        bookmarkToRemove.destroy()  
+        bookmarkToRemove.destroy() 
         res.send(bookmarkToRemove)
       }
     } catch (err) {

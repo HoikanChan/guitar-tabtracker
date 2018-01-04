@@ -48,9 +48,7 @@
     },
     computed: mapState(['user']),
     mounted: async function () {
-      this.items = (await BookmarkService.index({
-        userId: this.user.id
-      })).data
+      this.items = (await BookmarkService.index()).data
     }
   }
 </script>

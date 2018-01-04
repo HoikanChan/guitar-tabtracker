@@ -49,7 +49,6 @@
       this.songId = this.route.params.songId
       this.song = (await SongsService.show(this.songId)).data[0]
       HistoryService.post({
-        UserId: this.user.id,
         SongId: this.songId
       })
     }
