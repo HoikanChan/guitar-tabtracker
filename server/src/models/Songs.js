@@ -1,17 +1,21 @@
-module.exports = (sequelize, DataTypes) => {
-  const Song = sequelize.define('Song', {
+module.exports = mongoose => {
+  const Song = {
+    model: null,
+    name: 'Song'
+  }
+  const schema = new mongoose.Schema({
     title: {
-      type: DataTypes.STRING,
+      type: String,
       unique: true
     },
-    artist: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    album: DataTypes.STRING,
-    albumImageUrl: DataTypes.STRING,
-    youtubeId: DataTypes.STRING,
-    lyrics: DataTypes.TEXT,
-    tab: DataTypes.TEXT
+    artist: String,
+    genre: String,
+    album: String,
+    albumImageUrl: String,
+    youtubeId: String,
+    lyrics: String,
+    tab: String
   })
-
+  Song.model = mongoose.model(Song.name, schema)
   return Song
 }

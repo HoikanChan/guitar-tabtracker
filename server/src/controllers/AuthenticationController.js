@@ -27,24 +27,23 @@ module.exports = {
   async login (req, res) {
     try {
       const {email, password} = req.body
-      const user = await User.findOne({
-        where: {
-          email: email
+      const user = await User.findOne({'email': email}, function (err, user) {
+        if (err) throw err
+        if (!user) {
+          return res.status(403).send({
+            error: 'The login information was incorrect'
+          })
         }
+        // test a matching password
+        user.comparePassword(password, function (err, isMatch) {
+          if (err) throw err
+          if (!isMatch) {
+            return res.status(403).send({
+              error: 'The login information was incorrect'
+            })
+          }
+        })
       })
-
-      if (!user) {
-        return res.status(403).send({
-          error: 'The login information was incorrect'
-        })
-      }
-
-      const isPasswordValid = await user.comparePassword(password)
-      if (!isPasswordValid) {
-        return res.status(403).send({
-          error: 'The login information was incorrect'
-        })
-      }
 
       const userJson = user.toJSON()
       res.send({

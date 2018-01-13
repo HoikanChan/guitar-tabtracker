@@ -26,7 +26,7 @@
         <v-btn class='cyan' dark :to="{
             name:'song',
             params:{
-              songId:song.id
+              songId:song._id
             }
           }"
         >

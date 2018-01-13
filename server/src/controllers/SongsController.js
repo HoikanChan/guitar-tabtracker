@@ -8,27 +8,22 @@ module.exports = {
       const search = req.query.search
       let song = null
       if (search) {
-        song = await Song.findAll({
-          where: {
-            $or: [
-              'title',
-              'album',
-              'artist',
-              'genre'
-            ].map(key => ({
-              [key]: {
-                $like: `%${search}%`
-              }
-            }))
-          }
+        const LIKE_SEARCH = new RegExp(search, 'i')
+        song = await Song.find({
+          $or: [
+            {'title': LIKE_SEARCH},
+            {'album': LIKE_SEARCH},
+            {'artist': LIKE_SEARCH},
+            {'genre': LIKE_SEARCH}
+          ]
         })
       } else {
-        song = await Song.findAll({
-          limit: 10
-        })
+        song = await Song.find().limit(10)
       }
+      console.log(song);
       res.send(song)
     } catch (err) {
+      console.log(err)
       res.status(500).send({
         error: 'An error occured when trying to fectch songs.'
       })
@@ -36,13 +31,14 @@ module.exports = {
   },
   async show (req, res) {
     try {
-      const song = await Song.findAll({
-        where: {
-          id: req.params.songId
+      const song = await Song.findOne(
+        {
+          '_id': req.params.songId
         }
-      })
+      )
       res.send(song)
     } catch (err) {
+      console.log(err)
       res.status(500).send({
         error: 'An error occured when trying to fectch songs.'
       })
@@ -50,11 +46,7 @@ module.exports = {
   },
   async put (req, res) {
     try {
-      await Song.update(req.body, {
-        where: {
-          id: req.params.songId
-        }
-      })
+      await Song.findByIdAndUpdate(req.params.songId, req.body)
       res.send(req.body)
     } catch (err) {
       res.status(500).send({
