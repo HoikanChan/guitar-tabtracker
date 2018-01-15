@@ -7,21 +7,17 @@ module.exports = {
   async index (req, res) {
     try {
       const {songId} = req.query
+      const userId = req.user._id
       let where = {
-        UserId: req.user.id
+        'userId': userId
       }
       if (songId) {
-        where.SongId = songId
+        where.songId = songId
       }
-      const bookmark = await Bookmark.findAll({
-        where: where,
-        include: [
-          {
-            model: Song
-          }
-        ]
-      }).map(bookmark => bookmark.toJSON())
-        .map(bookmark => bookmark.Song)
+      let bookmark = await Bookmark.find(where, 'songId')
+        .populate({path: 'songId', select: ['title', 'artist', 'album']})
+      bookmark = bookmark.map(bookmark => bookmark.toJSON())
+        .map(bookmark => bookmark.songId)
       res.send(bookmark)
     } catch (err) {
       res.status(500).send({
@@ -31,20 +27,18 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const {SongId} = req.body
-      const UserId = req.user.id
-      if (UserId && SongId) {
+      const {songId} = req.body
+      const userId = req.user._id
+      if (userId && songId) {
         const sameExistBookmark = await Bookmark.findOne({
-          where: {
-            UserId: UserId,
-            SongId: SongId
-          }
+          'userId': userId,
+          'songId': songId
         })
         let newBookmark = null
         if (!sameExistBookmark) {
           newBookmark = await Bookmark.create({
-            UserId: UserId,
-            SongId: SongId
+            userId: userId,
+            songId: songId
           })
         }
         res.send(newBookmark)
@@ -62,11 +56,9 @@ module.exports = {
       const bookmarkId = req.params.bookmarkId
       if (bookmarkId) {
         const bookmarkToRemove = await Bookmark.findOne({
-          where: {
-            id: bookmarkId
-          }
+          '_id': bookmarkId
         })
-        bookmarkToRemove.destroy() 
+        bookmarkToRemove.destroy()
         res.send(bookmarkToRemove)
       }
     } catch (err) {

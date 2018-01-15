@@ -10,11 +10,11 @@ passport.use(
     secretOrKey: config.authentication.jwtSecret
   }, async function (jwtpayload, done) {
     try {
-      const user = await User.findOne({
-        where: {
-          id: jwtpayload.id
+      const user = await User.findOne(
+        {
+          '_id': jwtpayload._id
         }
-      })
+      )
       if (!user) {
         return done(new Error(), false)
       }

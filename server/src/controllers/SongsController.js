@@ -20,10 +20,8 @@ module.exports = {
       } else {
         song = await Song.find().limit(10)
       }
-      console.log(song);
       res.send(song)
     } catch (err) {
-      console.log(err)
       res.status(500).send({
         error: 'An error occured when trying to fectch songs.'
       })
@@ -38,7 +36,6 @@ module.exports = {
       )
       res.send(song)
     } catch (err) {
-      console.log(err)
       res.status(500).send({
         error: 'An error occured when trying to fectch songs.'
       })
