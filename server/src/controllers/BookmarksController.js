@@ -1,6 +1,5 @@
 const {
-  Bookmark,
-  Song
+  Bookmark
 } = require('../models')
 
 module.exports = {
@@ -17,7 +16,11 @@ module.exports = {
       let bookmark = await Bookmark.find(where, 'songId')
         .populate({path: 'songId', select: ['title', 'artist', 'album']})
       bookmark = bookmark.map(bookmark => bookmark.toJSON())
-        .map(bookmark => bookmark.songId)
+        .map(bookmark => {
+          let bookmarkQuery = bookmark.songId
+          bookmarkQuery._id = bookmark._id
+          return bookmarkQuery
+        })
       res.send(bookmark)
     } catch (err) {
       res.status(500).send({
@@ -54,13 +57,8 @@ module.exports = {
   async delete (req, res) {
     try {
       const bookmarkId = req.params.bookmarkId
-      if (bookmarkId) {
-        const bookmarkToRemove = await Bookmark.findOne({
-          '_id': bookmarkId
-        })
-        bookmarkToRemove.destroy()
-        res.send(bookmarkToRemove)
-      }
+      const bookmarkToRemove = await Bookmark.findByIdAndRemove(bookmarkId)
+      res.send(bookmarkToRemove)
     } catch (err) {
       res.status(500).send({
         error: 'An error occured when trying to delete bookmark.'

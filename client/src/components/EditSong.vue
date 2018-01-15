@@ -61,7 +61,7 @@
     },
     async mounted () {
       this.songId = this.route.params.songId
-      this.song = (await SongsService.show(this.songId)).data[0]
+      this.song = (await SongsService.show(this.songId)).data
     }
   }
 </script>

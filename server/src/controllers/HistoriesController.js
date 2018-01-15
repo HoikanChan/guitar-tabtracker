@@ -1,29 +1,19 @@
 const {
-  History,
-  Song
+  History
 } = require('../models')
 const _ = require('lodash')
 module.exports = {
   async index (req, res) {
     try {
       const userId = req.user.id
-      const histories = await History.findAll({
-        where: {
-          UserId: userId
-        },
-        include: [
-          {
-            model: Song
-          }
-        ],
-        order: [
-          ['createdAt', 'DESC']
-        ] 
-      }).map(history => history.toJSON())
-        .map(history => _.extend({},
-          history.Song,
-          history
-        ))
+      let histories = await History.find({'userId': userId})
+        .populate({path: 'songId', select: ['title', 'artist', 'album']})
+        .sort({date: -1})
+      histories = histories.map(history => history.toJSON())
+      .map(history => _.extend({},
+        history.songId,
+        history
+      ))
       res.send(_.uniqBy(histories, history => history.SongId))
     } catch (err) {
       res.status(500).send({
@@ -37,8 +27,8 @@ module.exports = {
       const UserId = req.user.id
       if (UserId && SongId) {
         const newHistory = await History.create({
-          UserId: UserId,
-          SongId: SongId
+          userId: UserId,
+          songId: SongId
         })
         res.send(newHistory)
       } else {

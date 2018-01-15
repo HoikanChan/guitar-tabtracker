@@ -15,7 +15,7 @@
         <v-btn class='cyan' dark :to="{
           name:'song-edit',
           params:{
-            songId:song.id
+            songId:song._id
           }
         }">
           Edit
@@ -60,8 +60,8 @@ export default {
       }
       try {
         const bookmark = (await BookmarkService.index({
-          userId: this.user.id,
-          songId: this.song.id
+          userId: this.user._id,
+          songId: this.song._id
         })).data
         if (bookmark.length > 0) {
           this.bookmark = bookmark[0]
@@ -75,7 +75,7 @@ export default {
     async setBookmark () {
       try {
         this.bookmark = (await BookmarkService.post({
-          SongId: this.song.id
+          songId: this.song._id
         })).data
       } catch (error) {
         console.log(error)
@@ -83,8 +83,9 @@ export default {
     },
     async unSetBookmark () {
       try {
-        if (this.bookmark.id) {
-          await BookmarkService.delete(this.bookmark.id).data
+        console.log(this.bookmark._id);
+        if (this.bookmark._id) {
+          await BookmarkService.delete(this.bookmark._id)
           this.bookmark = null
         }
       } catch (error) {
