@@ -29,16 +29,16 @@
             sortable: false,
             value: 'title'
           },
-          { 
+          {
             text: 'Artist',
             sortable: false,
             value: 'artist'
           },
-          { 
-            text: 'Album', 
+          {
+            text: 'Album',
             sortable: false,
-            value: 'album' 
-          },
+            value: 'album'
+          }
         ],
         items: []
       }

@@ -18,17 +18,17 @@ export default {
     }
   },
   watch: {
-    search: _.debounce (async function (val) {
+    search: _.debounce(async function (val) {
       const route = {
         name: 'songs'
       }
-      if(this.search !== '') {
+      if (this.search !== '') {
         route.query = {
           search: this.search
         }
       }
       this.$router.push(route)
-    },700),
+    }, 700),
     '$route.query.search': {
       immediate: true,
       handler (val) {

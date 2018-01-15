@@ -13,12 +13,7 @@
 <script>
 
 export default {
-  props: ['tabs'],
-  data () {
-    return {
-        
-    }
-  }
+  props: ['tabs']
 }
 </script>
 

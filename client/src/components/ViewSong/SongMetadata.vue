@@ -78,13 +78,13 @@ export default {
           SongId: this.song.id
         })).data
       } catch (error) {
-        console.log(err)
+        console.log(error)
       }
     },
     async unSetBookmark () {
-       try {
-        if(!!this.bookmark.id) {
-          (await BookmarkService.delete(this.bookmark.id)).data
+      try {
+        if (this.bookmark.id) {
+          await BookmarkService.delete(this.bookmark.id).data
           this.bookmark = null
         }
       } catch (error) {

@@ -13,7 +13,7 @@
 <script>
 
 export default {
-  props: ['lyrics'],
+  props: ['lyrics']
 }
 </script>
 

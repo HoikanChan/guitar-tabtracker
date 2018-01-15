@@ -33,7 +33,7 @@ export default {
       songs: null
     }
   },
-  computed:{
+  computed: {
     ...mapState(['isUserLoggedIn'])
   },
   async mounted () {
