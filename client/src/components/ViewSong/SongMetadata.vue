@@ -83,7 +83,6 @@ export default {
     },
     async unSetBookmark () {
       try {
-        console.log(this.bookmark._id);
         if (this.bookmark._id) {
           await BookmarkService.delete(this.bookmark._id)
           this.bookmark = null
