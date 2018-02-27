@@ -14,7 +14,10 @@ module.exports = mongoose => {
     albumImageUrl: String,
     youtubeId: String,
     lyrics: String,
-    tab: String
+    tune: String,
+    caps: String,
+    pattern: String,
+    tab: Array
   })
   Song.model = mongoose.model(Song.name, schema)
   return Song

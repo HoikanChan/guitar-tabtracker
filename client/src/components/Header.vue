@@ -55,25 +55,25 @@ export default {
       search: ''
     }
   },
-  watch: {
-    search: _.debounce(async function (val) {
-      const route = {
-        name: 'songs'
-      }
-      if (this.search !== '') {
-        route.query = {
-          search: this.search
-        }
-      }
-      this.$router.push(route)
-    }, 700),
-    '$route.query.search': {
-      immediate: true,
-      handler (val) {
-        this.search = val
-      }
-    }
-  },
+  // watch: {
+  //   search: _.debounce(async function (val) {
+  //     const route = {
+  //       name: 'songs'
+  //     }
+  //     if (this.search !== '') {
+  //       route.query = {
+  //         search: this.search
+  //       }
+  //     }
+  //     this.$router.push(route)
+  //   }, 700),
+  //   '$route.query.search': {
+  //     immediate: true,
+  //     handler (val) {
+  //       this.search = val
+  //     }
+  //   }
+  // },
   methods: {
     ...mapActions(['setToken', 'setUser']),
     navigateTo (route) {
